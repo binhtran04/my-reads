@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Book } from '../components/Book';
 import { Link } from 'react-router-dom';
 
-export const Main = ({ books }) => {
+export const Main = ({ books, onUpdateBook }) => {
   const currentlyReadingBooks = books.filter((book) => book.shelf === 'currentlyReading');
   const wantToReadBooks = books.filter((book) => book.shelf === 'wantToRead');
   const readBooks = books.filter((book) => book.shelf === 'read');
@@ -21,7 +21,7 @@ export const Main = ({ books }) => {
               <ol className="books-grid">
                 {currentlyReadingBooks.map((book) => (
                   <li key={book.id}>
-                    <Book title={book.title} authors={book.authors} coverImage={book.imageLinks.smallThumbnail} />
+                    <Book book={book} onUpdateBook={onUpdateBook} />
                   </li>
                 ))}
               </ol>
@@ -33,7 +33,7 @@ export const Main = ({ books }) => {
               <ol className="books-grid">
                 {wantToReadBooks.map((book) => (
                   <li key={book.id}>
-                    <Book title={book.title} authors={book.authors} coverImage={book.imageLinks.smallThumbnail} />
+                    <Book book={book} onUpdateBook={onUpdateBook} />
                   </li>
                 ))}
               </ol>
@@ -45,7 +45,7 @@ export const Main = ({ books }) => {
               <ol className="books-grid">
                 {readBooks.map((book) => (
                   <li key={book.id}>
-                    <Book title={book.title} authors={book.authors} coverImage={book.imageLinks.smallThumbnail} />
+                    <Book book={book} onUpdateBook={onUpdateBook} />
                   </li>
                 ))}
               </ol>
@@ -62,4 +62,5 @@ export const Main = ({ books }) => {
 
 Main.propTypes = {
   books: PropTypes.array.isRequired,
+  onUpdateBook: PropTypes.func.isRequired,
 };

@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Book = ({ title, authors, coverImage }) => {
+export const Book = ({ book, onUpdateBook }) => {
+  const handleChangeShelf = (event) => {
+    const newShelf = event.target.value;
+    onUpdateBook(book, newShelf);
+  };
+
   return (
     <div className="book">
       <div className="book-top">
@@ -10,11 +15,11 @@ export const Book = ({ title, authors, coverImage }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url("${coverImage}")`,
+            backgroundImage: `url("${book.imageLinks.smallThumbnail}")`,
           }}
         ></div>
         <div className="book-shelf-changer">
-          <select>
+          <select value={book.shelf} onChange={handleChangeShelf}>
             <option value="move" disabled>
               Move to...
             </option>
@@ -25,8 +30,8 @@ export const Book = ({ title, authors, coverImage }) => {
           </select>
         </div>
       </div>
-      <div className="book-title">{title}</div>
-      {authors.map((author) => (
+      <div className="book-title">{book.title}</div>
+      {book.authors.map((author) => (
         <div className="book-authors" key={author}>
           {author}
         </div>
@@ -36,7 +41,15 @@ export const Book = ({ title, authors, coverImage }) => {
 };
 
 Book.propTypes = {
-  coverImage: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  book: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    shelf: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    imageLinks: PropTypes.shape({
+      smallThumbnail: PropTypes.string,
+      thumbnail: PropTypes.string,
+    }),
+  }),
+  onUpdateBook: PropTypes.func.isRequired,
 };
