@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Book } from '../components/Book';
 import { Link } from 'react-router-dom';
+import { BookShelf } from '../components/BookShelf';
 
 export const Main = ({ books, onUpdateBook }) => {
-  const currentlyReadingBooks = books.filter((book) => book.shelf === 'currentlyReading');
-  const wantToReadBooks = books.filter((book) => book.shelf === 'wantToRead');
-  const readBooks = books.filter((book) => book.shelf === 'read');
+  const shelves = {
+    currentlyReading: ['Currently Reading', 'currentlyReading'],
+    wantToRead: ['Want to Read', 'wantToRead'],
+    read: ['Read', 'read'],
+  };
 
   return (
     <div className="list-books">
@@ -15,42 +17,14 @@ export const Main = ({ books, onUpdateBook }) => {
       </div>
       <div className="list-books-content">
         <div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {currentlyReadingBooks.map((book) => (
-                  <li key={book.id}>
-                    <Book book={book} onUpdateBook={onUpdateBook} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Want to Read</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {wantToReadBooks.map((book) => (
-                  <li key={book.id}>
-                    <Book book={book} onUpdateBook={onUpdateBook} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Read</h2>
-            <div className="bookshelf-books">
-              <ol className="books-grid">
-                {readBooks.map((book) => (
-                  <li key={book.id}>
-                    <Book book={book} onUpdateBook={onUpdateBook} />
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
+          {Object.keys(shelves).map((key) => (
+            <BookShelf
+              key={key}
+              title={shelves[key][0]}
+              books={books.filter((b) => b.shelf === key)}
+              onUpdateBook={onUpdateBook}
+            />
+          ))}
         </div>
       </div>
       <div className="open-search">
