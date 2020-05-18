@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Book } from '../components/Book';
 
-export const Search = () => {
+export const Search = ({ onSearchTermChange, searchTerm, searchedBooks, onUpdateBook }) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -15,12 +17,25 @@ export const Search = () => {
         However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
         you don't find a specific author or title. Every search is limited by search terms.
       */}
-          <input type="text" placeholder="Search by title or author" />
+          <input type="text" placeholder="Search by title or author" value={searchTerm} onChange={onSearchTermChange} />
         </div>
       </div>
       <div className="search-books-results">
-        <ol className="books-grid"></ol>
+        <ol className="books-grid">
+          {searchedBooks.map((book) => (
+            <li key={book.id}>
+              <Book book={book} onUpdateBook={onUpdateBook} />
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
+};
+
+Search.propTypes = {
+  onSearchTermChange: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  searchedBooks: PropTypes.array.isRequired,
+  onUpdateBook: PropTypes.func.isRequired,
 };

@@ -19,7 +19,7 @@ export const Book = ({ book, onUpdateBook }) => {
           }}
         ></div>
         <div className="book-shelf-changer">
-          <select value={book.shelf} onChange={handleChangeShelf}>
+          <select value={book.shelf || 'none'} onChange={handleChangeShelf}>
             <option value="move" disabled>
               Move to...
             </option>
@@ -44,8 +44,8 @@ Book.propTypes = {
   book: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired,
-    authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    shelf: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
     imageLinks: PropTypes.shape({
       smallThumbnail: PropTypes.string,
       thumbnail: PropTypes.string,
